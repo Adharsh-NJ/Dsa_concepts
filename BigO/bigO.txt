@@ -1,0 +1,36 @@
+BigO
+-big o points out how much the algorithm slows down while scaling the input size
+
+O(n)
+-As the number of input increases operations also increases(Linear Time)
+-good performance
+
+o(1)
+-only has operate one Time
+-(constat time )irrespective of input size
+-excellent performance
+
+o(n^2)
+-nested loops
+
+o(n!)
+-it is the worst case 
+-adding a loop for every element
+
+
+worst case
+use break; when needed use it to come out of the loop.
+
+what can cause time in a function?
+operations(+ - * /)
+comparisons(< > ==)
+loops(for while)
+outside function call (function())
+
+if there is different inputs for a function then it should be two different variables 
+
+causes of space complexity
+-variables
+-data structures
+-function calls
+-allocations
