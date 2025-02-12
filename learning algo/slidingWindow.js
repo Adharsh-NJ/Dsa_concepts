@@ -69,3 +69,61 @@ var minWindow = function(s, t) {
         return s.slice(result[0], result[1] + 1);
     }
 };
+
+//30. Substring with Concatenation of All Words
+
+var findSubstring = function(s, words) {
+    if (!s || words.length === 0) return [];
+
+    let wordSize = words[0].length;
+    let windowSize = wordSize * words.length;
+    let frequencyMap = new Map();
+
+    // Build the frequency map
+    for (let word of words) {
+        frequencyMap.set(word, (frequencyMap.get(word) || 0) + 1);
+    }
+
+    let result = [];
+
+    // Sliding window
+    for (let i = 0; i < wordSize; i++) {
+        let left = i;
+        let count = 0;
+        let countMap = new Map(frequencyMap);
+
+        for (let j = i; j <= s.length - wordSize; j += wordSize) {
+            const checkWord = s.substring(j, j + wordSize);
+
+            if (countMap.has(checkWord)) {
+                countMap.set(checkWord, countMap.get(checkWord) - 1);
+                count++;
+
+                // Adjust the window if a word occurs too many times
+                while (countMap.get(checkWord) < 0) {
+                    const leftWord = s.substring(left, left + wordSize);
+                    countMap.set(leftWord, countMap.get(leftWord) + 1);
+                    count--;
+                    left += wordSize;
+                }
+
+                // If all words match, record the start index
+                if (count === words.length) {
+                    result.push(left);
+                    const leftWord = s.substring(left, left + wordSize);
+                    countMap.set(leftWord, countMap.get(leftWord) + 1);
+                    count--;
+                    left += wordSize;
+                }
+
+            } else {
+                // Reset the window if an invalid word is found
+                countMap = new Map(frequencyMap);
+                count = 0;
+                left = j + wordSize;
+            }
+        }
+    }
+
+    return result;
+};

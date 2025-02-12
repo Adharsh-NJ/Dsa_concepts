@@ -1,6 +1,6 @@
 const combinationSum3 =(k,n)=>{
     const result =[];
-    const dfs =(i,k,n,slate)=>{
+    function dfs(i,k,n,slate){
         console.log("called")
         if(n<0) return
         if(slate.length === k){
@@ -8,9 +8,9 @@ const combinationSum3 =(k,n)=>{
                 return
         }
 
-        for(let j = i;j<=9;j++){
+        for(let j = i;j<=n;j++){
             slate.push(j);
-            console.log({i:j+1,nSum:{n,j,sum:n-j},slate} ,dfs(j+1,k,n-j,slate),"in dfs");
+            dfs(j+1,k,n-j,slate)
             slate.pop()
         }
     }
@@ -20,5 +20,45 @@ const combinationSum3 =(k,n)=>{
 
 combinationSum3(3,9)
 
-// notes:
- 
+// notes
+
+// 51. N-Queens (hard)
+
+var solveNQueens = function(n) {
+    let board = Array.from({length:n},()=> new Array(n).fill("."));
+    let solutions = [];
+    function isSafe(board,row,col){
+        for(let i = 0;i<n;i++){
+            if(board[i][col]==="Q" || board[row][i]==="Q"){
+                return false
+            }
+        }
+       for(let i=row,j=col;i>=0 && j>=0;j--,i--){
+         if(board[i][j]==="Q"){
+            return false
+         }
+       }
+       for(let i=row,j=col;i>=0 && j<n;j++,i--){
+         if(board[i][j]==="Q"){
+            return false
+         }
+       }
+        return true
+    }
+    function backTrack(row){
+        if(row===n){
+            solutions.push(board.map((row)=> row.join("")))
+            return;
+        }
+        for(let col=0;col<n;col++){
+            if(isSafe(board,row,col)){
+            board[row][col]="Q";
+            backTrack(row + 1);
+            board[row][col]="."
+            }
+        }
+    }
+    backTrack(0);
+
+    return solutions
+};
